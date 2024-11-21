@@ -15,8 +15,15 @@ app.use(morgan((tokens, req, res) => {
   ].join(' ');
 }));
 
+morgan.token('body', (req) => {
+  return req.body && Object.keys(req.body).length > 0
+    ? JSON.stringify(req.body)
+    : 'No body';
+});
 
-// // Middleware personalizado: requestLogger
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
+
+
 // const requestLogger = (request, response, next) => {
 //   console.log('--- Request Logger ---');
 //   console.log('Method:', request.method);
